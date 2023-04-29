@@ -21,7 +21,8 @@
 const textUser = document.querySelector("#textUser"),
   textResult = document.querySelector("#textResult"),
   btnEncriptar = document.querySelector("#btnEncriptar"),
-  btnDescifrar = document.querySelector("#btnDescifrar");
+  btnDescifrar = document.querySelector("#btnDescifrar"),
+  btnCopiar = document.querySelector('#btnCopiar');
 
 
 const encrypt = (textToEncrypt) => {
@@ -43,11 +44,6 @@ const encrypt = (textToEncrypt) => {
   return (textToEncrypt = textToEncryptArr.join(""));
 };
 
-btnEncriptar.addEventListener("click", () => {
-  const text = textUser.value;
-  textResult.value = encrypt(text);
-});
-
 const decrypt = (textToDecrypt) => {
   textToDecrypt = textToDecrypt.toUpperCase();
 
@@ -60,8 +56,24 @@ const decrypt = (textToDecrypt) => {
   return textResult.value = textToDecrypt;
 }
 
+btnEncriptar.addEventListener("click", () => {
+  const text = textUser.value;
+  textResult.value = encrypt(text);
+});
 
 btnDescifrar.addEventListener('click',() => {
   const text = textUser.value;
   decrypt(text);
+})
+
+btnCopiar.addEventListener('click',()=>{
+  clipboardItem = textResult.value;
+  navigator.clipboard.writeText(clipboardItem)
+  .then(() => {
+    alert('Texto copiado al portapapeles');
+  })
+  .catch(err => {
+    alert('Error al copiar al portapapeles:', err);
+  })
+
 })
