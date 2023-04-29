@@ -21,7 +21,7 @@
 const textUser = document.querySelector("#textUser"),
   textResult = document.querySelector("#textResult"),
   btnEncriptar = document.querySelector("#btnEncriptar"),
-  btnDescrifrar = document.querySelector("#btnDescifrar");
+  btnDescifrar = document.querySelector("#btnDescifrar");
 
 
 const encrypt = (textToEncrypt) => {
@@ -47,3 +47,21 @@ btnEncriptar.addEventListener("click", () => {
   const text = textUser.value;
   textResult.value = encrypt(text);
 });
+
+const decrypt = (textToDecrypt) => {
+  textToDecrypt = textToDecrypt.toUpperCase();
+
+  textToDecrypt = textToDecrypt.replace(/AI/g, "A");
+  textToDecrypt = textToDecrypt.replace(/ENTER/g, "E");
+  textToDecrypt = textToDecrypt.replace(/IMES/g, "I");
+  textToDecrypt = textToDecrypt.replace(/OBER/g, "O");
+  textToDecrypt = textToDecrypt.replace(/UFAT/g, "U");
+
+  return textResult.value = textToDecrypt;
+}
+
+
+btnDescifrar.addEventListener('click',() => {
+  const text = textUser.value;
+  decrypt(text);
+})
