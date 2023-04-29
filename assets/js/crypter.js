@@ -18,9 +18,32 @@
 //     inserción del texto que será encriptado o desencriptado, y el usuario debe poder escoger entre as dos opciones.
 //     El resultado debe ser mostrado en la pantalla.
 
+const textUser = document.querySelector("#textUser"),
+  textResult = document.querySelector("#textResult"),
+  btnEncriptar = document.querySelector("#btnEncriptar"),
+  btnDescrifrar = document.querySelector("#btnDescifrar");
 
-const textUser = document.querySelector('#textUser'),
-textResult = document.querySelector('#textResult'),
-btnEncriptar = document.querySelector('btnEncriptar'),
-btnDescrifrar = document.querySelector('#btnDescifrar');
 
+const encrypt = (textToEncrypt) => {
+  textToEncrypt = textToEncrypt.toUpperCase();
+  const textToEncryptArr = textToEncrypt.split("");
+  for (let i = 0; i < textToEncryptArr.length; i++) {
+    textToEncryptArr[i] === "A"
+      ? (textToEncryptArr[i] = "AI")
+      : textToEncryptArr[i] === "E"
+      ? (textToEncryptArr[i] = "ENTER")
+      : textToEncryptArr[i] === "I"
+      ? (textToEncryptArr[i] = "IMES")
+      : textToEncryptArr[i] === "O"
+      ? (textToEncryptArr[i] = "OBER")
+      : textToEncryptArr[i] === "U"
+      ? (textToEncryptArr[i] = "UFAT")
+      : (textToEncryptArr[i] = textToEncryptArr[i]);
+  }
+  return (textToEncrypt = textToEncryptArr.join(""));
+};
+
+btnEncriptar.addEventListener("click", () => {
+  const text = textUser.value;
+  textResult.value = encrypt(text);
+});
