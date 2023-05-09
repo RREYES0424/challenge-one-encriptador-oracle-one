@@ -1,79 +1,83 @@
-// La letra "a" es convertida para "ai"
-// La letra "e" es convertida para "enter"
-// La letra "i" es convertida para "imes"
-// La letra "o" es convertida para "ober"
-// La letra "u" es convertida para "ufat"
+const btnEncrypt = document.querySelector('.cta-ctaButton--blue'),
+  btnDecrypt = document.querySelector('.cta__ctaButton--grey'),
+  btnCopy = document.querySelector('.cta-ctaButton-desative'),
+  text = document.querySelector('textarea'),
+  divResult = document.querySelector('.result'),
+  textarea = document.querySelector('textarea'),
+  para = document.querySelector('.result__paragraph'),
+  error = document.querySelector('.cta_ctaInfowrapper');
+(regexUppercase = new RegExp(/[A-Z]/g)),
+  (regexAccents = new RegExp(/[áéíóúñ]/gi));
+let textResult, str;
 
-// Requisitos:
-
-//     Debe funcionar solo con letras minúsculas
-//     No deben ser utilizados letras con acentos ni caracteres especiales
-//     Debe ser posible convertir una palabra para la versión encriptada también devolver una palabra encriptada para su versión original.
-
-// Por ejemplo:
-// "gato" => "gaitober"
-// gaitober" => "gato"
-
-//     La página debe tener campos para
-//     inserción del texto que será encriptado o desencriptado, y el usuario debe poder escoger entre as dos opciones.
-//     El resultado debe ser mostrado en la pantalla.
-
-const textUser = document.querySelector("#textUser"),
-  textResult = document.querySelector("#textResult"),
-  btnEncriptar = document.querySelector("#btnEncriptar"),
-  btnDescifrar = document.querySelector("#btnDescifrar"),
-  btnCopiar = document.querySelector('#btnCopiar');
-
-
-const encrypt = (textToEncrypt) => {
-  textToEncrypt = textToEncrypt.toUpperCase();
-  const textToEncryptArr = textToEncrypt.split("");
-  for (let i = 0; i < textToEncryptArr.length; i++) {
-    textToEncryptArr[i] === "A"
-      ? (textToEncryptArr[i] = "AI")
-      : textToEncryptArr[i] === "E"
-      ? (textToEncryptArr[i] = "ENTER")
-      : textToEncryptArr[i] === "I"
-      ? (textToEncryptArr[i] = "IMES")
-      : textToEncryptArr[i] === "O"
-      ? (textToEncryptArr[i] = "OBER")
-      : textToEncryptArr[i] === "U"
-      ? (textToEncryptArr[i] = "UFAT")
-      : (textToEncryptArr[i] = textToEncryptArr[i]);
-  }
-  return (textToEncrypt = textToEncryptArr.join(""));
+const KEYS_ENCRYPT = {
+  e: 'enter',
+  i: 'imes',
+  a: 'ai',
+  o: 'ober',
+  u: 'ufat',
 };
 
-const decrypt = (textToDecrypt) => {
-  textToDecrypt = textToDecrypt.toUpperCase();
+const KEYS_REVERSEENCRYPT = {
+  enter: 'e',
+  imes: 'i',
+  ai: 'a',
+  ober: 'o',
+  ufat: 'u',
+};
 
-  textToDecrypt = textToDecrypt.replace(/AI/g, "A");
-  textToDecrypt = textToDecrypt.replace(/ENTER/g, "E");
-  textToDecrypt = textToDecrypt.replace(/IMES/g, "I");
-  textToDecrypt = textToDecrypt.replace(/OBER/g, "O");
-  textToDecrypt = textToDecrypt.replace(/UFAT/g, "U");
+const isUpperCaseOrIsAccent = (text) => {
+  return text.match(regexAccents) || text.match(regexUppercase);
+};
 
-  return textResult.value = textToDecrypt;
+const toEncrypt = (text) => {
+  const rgx_keys_encrypt = new RegExp(/[eiou]/gi);
+  return text.replace(rgx_keys_encrypt, (word) => KEYS_ENCRYPT[word]);
+};
+
+const toReverseEncrypt = (text) => {
+  const rgx_keys_reverseEncrypt = new RegExp(/enter|imes|ai|ober|ufat/gi);
+  return text.replace(
+    rgx_keys_reverseEncrypt,
+    (word) => KEYS_REVERSEENCRYPT[word]
+  );
+};
+
+function animate() {
+  let running = setTimeout(animate, 145);
+  str.length > 0 ? (para.innerHTML += str.shift()) : clearTimeout(running);
 }
 
-btnEncriptar.addEventListener("click", () => {
-  const text = textUser.value;
-  textResult.value = encrypt(text);
-});
+const handleClick = (mode = 'encrypt') => {
+  const text = textarea.value;
+  let isCheck = isUpperCaseOrIsAccent(text);
+  if (isCheck !== null || text.length === 0) {
+    error.classList.add('active');
+  } else {
+    error.classList.remove('active');
+    textResult = mode === 'decrypt' ? toReverseEncrypt(text) : toEncrypt(text);
+    para.innerHTML = '';
+    str = textResult.split('');
+    divResult.classList.add('active');
+    animate();
+  }
+};
 
-btnDescifrar.addEventListener('click',() => {
-  const text = textUser.value;
-  decrypt(text);
-})
+const handleCopy = () => {
+  navigator.clipboard.writeText(textResult);
+  btnCopy.classList.add('copy');
+  setTimeout(() => btnCopy.classList.remove('copy'), 2000);
+};
 
-btnCopiar.addEventListener('click',()=>{
-  clipboardItem = textResult.value;
-  navigator.clipboard.writeText(clipboardItem)
-  .then(() => {
-    alert('Texto copiado al portapapeles');
-  })
-  .catch(err => {
-    alert('Error al copiar al portapapeles:', err);
-  })
+const isEmpty = (event) => {
+  const value = event.target.value;
+  if (value.length === 0) {
+    divResult.classList.remove('active');
+    para.innerHTML = '';
+  }
+};
 
-})
+textarea.addEventListener('input', isEmpty);
+btnEncrypt.addEventListener('click', handleClick);
+btnDecrypt.addEventListener('click', () => handleClick('decrypt'));
+btnCopy.addEventListener('click', handleCopy);

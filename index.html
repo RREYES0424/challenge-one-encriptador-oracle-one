@@ -1,18 +1,69 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EncriptadorGPT</title>
-</head>
-<body>
-    <h1>EncriptadorGPT</h1>
-    <input type="text" name="" id="textUser">
-    <input type="text" name="" id="textResult" placeholder="Resultado" readonly>
-    <button id="btnEncriptar">Encriptar</button>
-    <button id="btnDescifrar">Descifrar</button>
-    <button id="btnCopiar">Copiar Texto</button>
-    <script src="./assets/js/crypter.js"></script>
-</body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Encriptador</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+  </head>
+  <body>
+    <main class="encryption">
+      <section class="cta">
+        <div class="cta__logo">
+          <img
+            class="cta__logoImg animate__animated animate__swing"
+            src="./assets/img/logo.svg"
+            alt="logo-encryption"
+          />
+        </div>
+        <article class="cta__cta">
+          <div class="cta__ctaInput">
+            <textarea
+              name="text"
+              rows="4"
+              cols="50"
+              autofocus
+              placeholder="Ingrese el Texto Aqui"
+            ></textarea>
+          </div>
+
+          <div class="cta__ctaInfo">
+            <div class="cta__ctaBottom">
+              <div class="cta_ctaInfowrapper">
+                <p>Solo letras minúsculas y sin acentos</p>
+              </div>
+              <div class="cta__ctaButtons">
+                <button class="cta__ctaButton cta-ctaButton--blue">
+                  Encriptar
+                </button>
+                <button class="cta__ctaButton cta__ctaButton--grey">
+                  Desencriptar
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="result animate__animated animate__flipInY">
+        <div class="result__boy">
+          <img src="./assets/img/muneco.svg" alt="boy-svg" />
+        </div>
+        <h2 class="result__title">Ningún mensaje fue encontrado</h2>
+        <p class="result__paragraph"></p>
+        <button
+          class="cta__ctaButton cta__ctaButton--grey cta-ctaButton-desative"
+        >
+          Copiar
+        </button>
+      </section>
+    </main>
+
+    <script src="./assets/js/crypter-min.js"></script>
+  </body>
 </html>
